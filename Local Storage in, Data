@@ -1,25 +1,15 @@
-/ Retrieve local storage data
-const localStorageData = {};
-for (let i = 0; i < localStorage.length; i++) {
-  const key = localStorage.key(i);
-  const value = localStorage.getItem(key);
-  localStorageData[key] = value;
+// Replace the following JSON string with the data you want to set
+const jsonString = '{"key1": "value1", "key2": "value2"}';
+
+// Parse the JSON string
+const newData = JSON.parse(jsonString);
+
+// Set the data into local storage
+for (const key in newData) {
+  if (newData.hasOwnProperty(key)) {
+    localStorage.setItem(key, newData[key]);
+  }
 }
 
-// Convert data to JSON
-const jsonData = JSON.stringify(localStorageData, null, 2);
-
-// Create a Blob with the JSON data
-const blob = new Blob([jsonData], { type: 'application/json' });
-
-// Create a download link
-const link = document.createElement('a');
-link.href = URL.createObjectURL(blob);
-link.download = 'local_storage_data.json';
-
-// Append the link to the document and trigger the click event
-document.body.appendChild(link);
-link.click();
-
-// Clean up
-document.body.removeChild(link);
+// Optional: Log a message to the console
+console.log('Local storage data set successfully!');
